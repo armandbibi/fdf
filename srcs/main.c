@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/30 20:35:35 by abiestro          #+#    #+#             */
-/*   Updated: 2018/06/20 22:08:49 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/06/20 23:04:08 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,9 +151,9 @@ static void		add_map(t_fdf *o_fdf, void *mlx, void *win, char *str)
 	tmp = malloc(sizeof(t_fdf));
 	fdf_constructor(tmp, 2);
 	tmp->color = 0x22AA88;
-	tmp->color_blue = 0xA0;
-	tmp->color_red = 0xa000;
-	tmp->color_green = 0xa00000;
+	tmp->color_blue = 0x00;
+	tmp->color_red = 0xA200;
+	tmp->color_green = 0x0000000;
 	tmp->map = NULL;
 	tmp->map = parse_file(str, o_fdf->map);
 	tmp->mlx = mlx;
@@ -162,14 +162,12 @@ static void		add_map(t_fdf *o_fdf, void *mlx, void *win, char *str)
 	tmp2->next = tmp;
 }
 
-static void new_fdf(t_fdf *o_fdf, void *mlx, void *win)
+static t_fdf	*new_fdf(t_fdf *o_fdf, void *mlx, void *win, char *str)
 {
-	if (ac < 2)
-		return (0);
 	o_fdf = malloc(sizeof(t_fdf));
-	fdf_constructor(o_fdf, i);
+	fdf_constructor(o_fdf, 1);
 	o_fdf->map = NULL;
-	o_fdf->map = parse_file(av[1], o_fdf->map);
+	o_fdf->map = parse_file(str, o_fdf->map);
 	o_fdf->mlx = mlx;
 	o_fdf->win = win;
 	o_fdf->color = 0xFFFFFF;
@@ -178,7 +176,7 @@ static void new_fdf(t_fdf *o_fdf, void *mlx, void *win)
 	o_fdf->color_green = 0xF00000;
 	o_fdf->next = o_fdf;
 	draw_map(o_fdf);
-	i++;
+	return (o_fdf);
 }
 
 int	main(int ac, char **av)
@@ -188,24 +186,13 @@ int	main(int ac, char **av)
 	void	*mlx;
 	void	*win;
 
-	i = 1;
+	i = 2;
 	mlx = mlx_init();
 	win = mlx_new_window(mlx, FDF_SCREEN_X, FDF_SCREEN_Y, "FDF");
 	if (ac < 2)
 		return (0);
-	o_fdf = malloc(sizeof(t_fdf));
-	fdf_constructor(o_fdf, i);
-	o_fdf->map = NULL;
-	o_fdf->map = parse_file(av[1], o_fdf->map);
-	o_fdf->mlx = mlx;
-	o_fdf->win = win;
-	o_fdf->color = 0xFFFFFF;
-	o_fdf->color_blue = 0xFF;
-	o_fdf->color_red = 0xFF00;
-	o_fdf->color_green = 0xF00000;
-	o_fdf->next = o_fdf;
-	draw_map(o_fdf);
-	i++;
+	o_fdf = 0;
+	o_fdf = new_fdf(o_fdf, mlx, win, av[1]);
 	while (av[i])
 		add_map(o_fdf, mlx, win, av[i++]);
 	draw_all_map(o_fdf);
