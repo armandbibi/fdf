@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/04 15:32:52 by abiestro          #+#    #+#             */
-/*   Updated: 2018/06/20 21:48:48 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/06/20 22:06:35 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@ static double	rotate(double *i, double *j, double *k, t_fdf *o_fdf)
 
 	a = *i;
 	b = *j;
+	c = *k - 48;
 	*i = (a * cos(o_fdf->ang_x) - b * sin(o_fdf->ang_x));
 	*j = (b * cos(o_fdf->ang_x) + a * sin(o_fdf->ang_x));
 	a = *i;
-	c = *k - 48;
+	b = *j;
 	*k = (c * cos(o_fdf->ang_z) - a * sin(o_fdf->ang_z));
 	*i = (a * cos(o_fdf->ang_z) + c * sin(o_fdf->ang_z));
-	b = *j;
-	c = *k - 48;
+	a = *i;
+	c = *k;
 	*j = (b * cos(o_fdf->ang_y) - c * sin(o_fdf->ang_y));
 	*k = (c * cos(o_fdf->ang_y) + b * sin(o_fdf->ang_y));
 	return (1);
@@ -57,7 +58,8 @@ static void		draw_left(t_fdf *o_fdf, int i, int j)
 		((a - b) * o_fdf->coef_x - (c) * o_fdf->coef_z);
 	coord[2] = o_fdf->margin_top + o_fdf->zoom *
 		((a + b) * o_fdf->coef_y);
-	ft_bresenham(coord, o_fdf->mlx, o_fdf->win, o_fdf->color_blue + o_fdf->color_red + o_fdf->color_green);
+	ft_bresenham(coord, o_fdf->mlx, o_fdf->win,
+			o_fdf->color_blue + o_fdf->color_red + o_fdf->color_green);
 }
 
 static void		draw_top(t_fdf *o_fdf, int i, int j)
@@ -83,7 +85,8 @@ static void		draw_top(t_fdf *o_fdf, int i, int j)
 		((a - b) * o_fdf->coef_x - (c) * o_fdf->coef_z);
 	coord[2] = o_fdf->margin_top + o_fdf->zoom *
 		((a + b) * o_fdf->coef_y);
-	ft_bresenham(coord, o_fdf->mlx, o_fdf->win, o_fdf->color_blue + o_fdf->color_red + o_fdf->color_green);
+	ft_bresenham(coord, o_fdf->mlx, o_fdf->win,
+			o_fdf->color_blue + o_fdf->color_red + o_fdf->color_green);
 }
 
 void			draw_map(t_fdf *o_fdf)

@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/30 20:35:35 by abiestro          #+#    #+#             */
-/*   Updated: 2018/06/20 21:52:16 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/06/20 22:08:49 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,12 +162,31 @@ static void		add_map(t_fdf *o_fdf, void *mlx, void *win, char *str)
 	tmp2->next = tmp;
 }
 
+static void new_fdf(t_fdf *o_fdf, void *mlx, void *win)
+{
+	if (ac < 2)
+		return (0);
+	o_fdf = malloc(sizeof(t_fdf));
+	fdf_constructor(o_fdf, i);
+	o_fdf->map = NULL;
+	o_fdf->map = parse_file(av[1], o_fdf->map);
+	o_fdf->mlx = mlx;
+	o_fdf->win = win;
+	o_fdf->color = 0xFFFFFF;
+	o_fdf->color_blue = 0xFF;
+	o_fdf->color_red = 0xFF00;
+	o_fdf->color_green = 0xF00000;
+	o_fdf->next = o_fdf;
+	draw_map(o_fdf);
+	i++;
+}
+
 int	main(int ac, char **av)
 {
 	t_fdf	*o_fdf;
-	int i;
-	void *mlx;
-	void *win;
+	int		i;
+	void	*mlx;
+	void	*win;
 
 	i = 1;
 	mlx = mlx_init();
