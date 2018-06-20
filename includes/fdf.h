@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/31 15:50:47 by abiestro          #+#    #+#             */
-/*   Updated: 2018/06/19 11:53:22 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/06/20 21:37:27 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 
 typedef struct	s_fdf
 {
+	int			id;
 	void 		*mlx;
 	void		*win;
 	double		ang_x;
@@ -43,11 +44,23 @@ typedef struct	s_fdf
 	int			margin_lef;
 	int			zoom;
 	int			**map;
+	int			color;
+	int			color_blue;
+	int			color_red;
+	int			color_green;
+	struct s_fdf	*next;
 }				t_fdf;
 
-void			ft_bresenham(double  *coords, void *mlx, void *window);
+typedef struct	s_controlleur
+{
+	t_fdf	*o_fdf;
+	void	*win;
+	void	*mlx;
+}				t_controlleur;
+
+void			ft_bresenham(double  *coords, void *mlx, void *window, int color);
 int				**parse_file(char *file, int **map);
-void			see_map(int **map);
 void			algo_line(float *coordonates, void *mlx, void *window);
 void			draw_map(t_fdf *o_fdf);
+t_fdf   		fdf_constructor(t_fdf *o_fdf, int i);
 #endif

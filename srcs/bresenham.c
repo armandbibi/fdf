@@ -6,41 +6,37 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 16:52:00 by abiestro          #+#    #+#             */
-/*   Updated: 2018/06/19 11:47:13 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/06/20 21:37:49 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_bresenham(double *coords, void *mlx, void *window)
+void	ft_bresenham(double *coords, void *mlx, void *window, int color)
 {
-	double	dx;
-	double	dy;
-	double	sx;
-	double	sy;
-	int		err;
-	int		e2;
+	double		err;
+	double		e2;
+	double		c2[4];
 
-	dx = abs((int)coords[2] - (int)coords[0]);
-	dy = abs((int)coords[3] - (int)coords[1]);
-	sx = (coords[0] < coords[2]) ? 1 : -1;
-	sy = (coords[1] < coords[3]) ? 1 : -1;
-	err = (dx > dy ? dx : -dy) / 2;
-	while (coords[0] > 0 && coords[1] > 0 && ((int)coords[0] != (int)coords[2] || (int)coords[1] != (int)coords[3]))
+	c2[0] = abs((int)coords[2] - (int)coords[0]);
+	c2[1] = abs((int)coords[3] - (int)coords[1]);
+	c2[2] = (coords[0] < coords[2]) ? 1 : -1;
+	c2[3] = (coords[1] < coords[3]) ? 1 : -1;
+	err = (c2[0] > c2[1] ? c2[0] : -c2[1]) / 2;
+	while (coords[0] > 0 && ((int)coords[0] != (int)coords[2] ||
+			(int)coords[1] != (int)coords[3]) && coords[1] > 0)
 	{
-		if ((int)coords[0] == (int)coords[2] && (int)coords[1] == (int)coords[3])
-			return ;
-		mlx_pixel_put(mlx, window, coords[0], coords[1], 0xE628AB);
+		mlx_pixel_put(mlx, window, coords[0], coords[1], color);
 		e2 = err;
-		if (e2 >= -dx)
+		if (e2 >= -c2[0])
 		{
-			err -= dy;
-			coords[0] += sx;
+			err -= c2[1];
+			coords[0] += c2[2];
 		}
-		if (e2 < dy)
+		if (e2 < c2[1])
 		{
-			err += dx;
-			coords[1] += sy;
+			err += c2[0];
+			coords[1] += c2[3];
 		}
 	}
 }
