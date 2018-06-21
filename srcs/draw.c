@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/04 15:32:52 by abiestro          #+#    #+#             */
-/*   Updated: 2018/06/20 22:06:35 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/06/21 19:34:40 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static double	rotate(double *i, double *j, double *k, t_fdf *o_fdf)
 
 	a = *i;
 	b = *j;
-	c = *k - 48;
+	c = *k;
 	*i = (a * cos(o_fdf->ang_x) - b * sin(o_fdf->ang_x));
 	*j = (b * cos(o_fdf->ang_x) + a * sin(o_fdf->ang_x));
 	a = *i;
@@ -98,11 +98,11 @@ void			draw_map(t_fdf *o_fdf)
 	while (o_fdf->map[i])
 	{
 		j = 0;
-		while (o_fdf->map[i][j])
+		while (o_fdf->map[i][j] != 1000)
 		{
-			if (o_fdf->map[i + 1] && o_fdf->map[i + 1][j])
+			if (o_fdf->map[i + 1] && o_fdf->map[i + 1][j] != 1000)
 				draw_left(o_fdf, i, j);
-			if (o_fdf->map[i][j + 1])
+			if (o_fdf->map[i][j + 1] != 1000)
 				draw_top(o_fdf, i, j);
 			j++;
 		}

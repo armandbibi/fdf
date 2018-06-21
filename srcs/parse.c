@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/30 20:09:58 by abiestro          #+#    #+#             */
-/*   Updated: 2018/06/20 18:23:48 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/06/21 19:29:24 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int		**add_line(int **map, int size, char *line)
 	char	**split;
 
 	i = -1;
-	if (!(map_alloc = malloc(sizeof(int*) * (size + 1))))
+	if (!(map_alloc = malloc(sizeof(int*) * (size + 2))))
 		return (0);
 	while (++i < size)
 		map_alloc[i] = map[i];
@@ -32,12 +32,34 @@ static int		**add_line(int **map, int size, char *line)
 		return (0);
 	i = -1;
 	while (split[++i])
-		map_alloc[size][i] = 48 + ft_atoi(split[i]);
-	map_alloc[size][i] = 0;
-	map_alloc[size + 1] = 0;
+	{
+		map_alloc[size][i] = ft_atoi(split[i]);
+		free(split[i]);
+	}
+	printf("size : %d\n", size);
+	map_alloc[size][i] = 1000;
+	map_alloc[size + 1] = NULL;
 	free(map);
-	map = map_alloc;
-	return (map);
+	free(split);
+	return (map_alloc);
+}
+
+static void seemap(int **map, char *file)
+{
+	int i;
+	int j;
+
+	printf("%s\n", file);
+	i = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j] != 1000)
+			printf("-%3d -", map[i][j++]);
+		printf("\n");
+		i++;
+	}
+
 }
 
 int				**parse_file(char *file, int **map)
@@ -54,6 +76,7 @@ int				**parse_file(char *file, int **map)
 		map = add_line(map, size++, line);
 		free(line);
 	}
+	seemap(map, file);
 	close(fd);
 	return (map);
 }

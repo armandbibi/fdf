@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/30 20:35:35 by abiestro          #+#    #+#             */
-/*   Updated: 2018/06/20 23:04:08 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/06/21 18:55:57 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,8 +196,6 @@ int	main(int ac, char **av)
 	while (av[i])
 		add_map(o_fdf, mlx, win, av[i++]);
 	draw_all_map(o_fdf);
-
-
 	t_controlleur	controle;
 	controle.o_fdf = o_fdf;
 	controle.win = win;

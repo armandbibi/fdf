@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/31 15:50:47 by abiestro          #+#    #+#             */
-/*   Updated: 2018/06/20 21:37:27 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/06/21 20:39:20 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 /*
  *** size of the screen
 */
-# define FDF_SCREEN_X 1000
-# define FDF_SCREEN_Y 1000
+# define FDF_SCREEN_X 3000
+# define FDF_SCREEN_Y 3000
 
 typedef struct	s_fdf
 {
@@ -43,12 +43,14 @@ typedef struct	s_fdf
 	int			margin_top;
 	int			margin_lef;
 	int			zoom;
-	int			**map;
 	int			color;
 	int			color_blue;
 	int			color_red;
 	int			color_green;
+	int			map_size_x;
+	int			map_size_y;
 	struct s_fdf	*next;
+	int			**map;
 }				t_fdf;
 
 typedef struct	s_controlleur
