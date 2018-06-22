@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/04 15:32:52 by abiestro          #+#    #+#             */
-/*   Updated: 2018/06/21 19:34:40 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/06/22 21:10:25 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,16 @@ static void		draw_left(t_fdf *o_fdf, int i, int j)
 	b = j;
 	c = o_fdf->map[i][j];
 	rotate(&a, &b, &c, o_fdf);
-	coord[1] = o_fdf->margin_lef + o_fdf->zoom *
-		((a - b) * o_fdf->coef_x - (c) * o_fdf->coef_z);
-	coord[0] = o_fdf->margin_top + o_fdf->zoom *
-		((a + b) * o_fdf->coef_y);
+	coord[1] = o_fdf->margin_lef + o_fdf->zoom * ((a - b) * o_fdf->coef_x - (c) * o_fdf->coef_z);
+	coord[0] = o_fdf->margin_top + o_fdf->zoom * ((a + b) * o_fdf->coef_y);
 	a = i + 1;
 	b = j;
 	c = o_fdf->map[i + 1][j];
 	rotate(&a, &b, &c, o_fdf);
-	coord[3] = o_fdf->margin_lef + o_fdf->zoom *
-		((a - b) * o_fdf->coef_x - (c) * o_fdf->coef_z);
-	coord[2] = o_fdf->margin_top + o_fdf->zoom *
-		((a + b) * o_fdf->coef_y);
-	ft_bresenham(coord, o_fdf->mlx, o_fdf->win,
-			o_fdf->color_blue + o_fdf->color_red + o_fdf->color_green);
+	coord[3] = o_fdf->margin_lef + o_fdf->zoom * ((a - b) * o_fdf->coef_x - (c) * o_fdf->coef_z);
+	coord[2] = o_fdf->margin_top + o_fdf->zoom * ((a + b) * o_fdf->coef_y);
+	o_fdf->color = o_fdf->color_blue + o_fdf->color_red + o_fdf->color_green;
+	ft_bresenham(coord, o_fdf);
 }
 
 static void		draw_top(t_fdf *o_fdf, int i, int j)
@@ -73,20 +69,15 @@ static void		draw_top(t_fdf *o_fdf, int i, int j)
 	b = j;
 	c = o_fdf->map[i][j];
 	rotate(&a, &b, &c, o_fdf);
-	coord[1] = o_fdf->margin_lef + o_fdf->zoom *
-		((a - b) * o_fdf->coef_x - (c) * o_fdf->coef_z);
-	coord[0] = o_fdf->margin_top + o_fdf->zoom *
-		((a + b) * o_fdf->coef_y);
+	coord[1] = o_fdf->margin_lef + o_fdf->zoom * ((a - b) * o_fdf->coef_x - (c) * o_fdf->coef_z);
+	coord[0] = o_fdf->margin_top + o_fdf->zoom * ((a + b) * o_fdf->coef_y);
 	a = i;
 	b = j + 1;
 	c = o_fdf->map[i][j + 1];
 	rotate(&a, &b, &c, o_fdf);
-	coord[3] = o_fdf->margin_lef + o_fdf->zoom *
-		((a - b) * o_fdf->coef_x - (c) * o_fdf->coef_z);
-	coord[2] = o_fdf->margin_top + o_fdf->zoom *
-		((a + b) * o_fdf->coef_y);
-	ft_bresenham(coord, o_fdf->mlx, o_fdf->win,
-			o_fdf->color_blue + o_fdf->color_red + o_fdf->color_green);
+	coord[3] = o_fdf->margin_lef + o_fdf->zoom * ((a - b) * o_fdf->coef_x - (c) * o_fdf->coef_z);
+	coord[2] = o_fdf->margin_top + o_fdf->zoom * ((a + b) * o_fdf->coef_y);
+	ft_bresenham(coord, o_fdf);
 }
 
 void			draw_map(t_fdf *o_fdf)
