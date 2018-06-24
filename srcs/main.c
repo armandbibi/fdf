@@ -6,156 +6,50 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/30 20:35:35 by abiestro          #+#    #+#             */
-/*   Updated: 2018/06/22 22:14:45 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/06/24 18:17:24 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void		draw_all_map(t_fdf *m)
+void			draw_all_map(t_fdf *m)
 {
-	t_fdf *s;
-	int a;
-	int c;
+	t_fdf	*s;
+	int		a;
+	int		c;
 
 	s = m;
-	m->img = mlx_new_image(m->mlx, FDF_SCREEN_X, FDF_SCREEN_Y / 4);
+	m->img = mlx_new_image(m->mlx, FDF_SCREEN_Y, FDF_SCREEN_X);
 	m->img_str = mlx_get_data_addr(m->img, &a, &m->img_len, &c);
-	draw_map(s);
-	a = 0;
-	while (a++ < 3000)
-		m->img_str[4 * a + 1 + 300 * 1000] = m->color_blue;
-	mlx_put_image_to_window(m->mlx, m->win, m->img, 0, 0);
-	mlx_destroy_image(m->mlx, m->img);
+	draw_map(m);
 	while (s->next != m)
 	{
 		s = s->next;
+		s->img = m->img;
+		s->img_str = m->img_str;
 		draw_map(s);
-		mlx_put_image_to_window(m->mlx, m->win, m->img, 0, 0);
-		mlx_destroy_image(m->mlx, m->img);
 	}
+	mlx_put_image_to_window(s->mlx, s->win, s->img, 0, 0);
+	add_information(m);
 }
 
-static void		move_map(int key, t_fdf *o_fdf)
-{
-	if (key == 123)
-		o_fdf->margin_top -= 100 * o_fdf->zoom;
-	if (key == 124)
-		o_fdf->margin_top += 100 * o_fdf->zoom;
-	if (key == 126)
-		o_fdf->margin_lef -= 100 * o_fdf->zoom;
-	if (key == 125)
-		o_fdf->margin_lef += 100 * o_fdf->zoom;
-	mlx_clear_window(o_fdf->mlx, o_fdf->win);
-	draw_all_map(o_fdf);
-}
-
-static void		zoom_map(int key, t_fdf *o_fdf)
-{
-	if (key == 69)
-		o_fdf->zoom++;
-	if (key == 78)
-		o_fdf->zoom--;
-	mlx_clear_window(o_fdf->mlx, o_fdf->win);
-	draw_all_map(o_fdf);
-}
-
-static void		dilate_map(int key, t_fdf *o_fdf)
-{
-	if (key == 12)
-		o_fdf->coef_x++;
-	if (key == 13)
-		o_fdf->coef_y++;
-	if (key == 14)
-		o_fdf->coef_z++;
-	if (key == 18)
-		o_fdf->coef_x--;
-	if (key == 19)
-		o_fdf->coef_y--;
-	if (key == 20)
-		o_fdf->coef_z--;
-	mlx_clear_window(o_fdf->mlx, o_fdf->win);
-	draw_all_map(o_fdf);
-}
-
-static void		rotate_map(int key, t_fdf *o_fdf)
-{
-	if (key == 0)
-		o_fdf->ang_x += 0.10;
-	if (key == 1)
-		o_fdf->ang_y += 0.10;
-	if (key == 2)
-		o_fdf->ang_z += 0.10;
-	if (key == 6)
-		o_fdf->ang_x -= 0.10;
-	if (key == 7)
-		o_fdf->ang_y -= 0.10;
-	if (key == 8)
-		o_fdf->ang_z -= 0.10;
-	mlx_clear_window(o_fdf->mlx, o_fdf->win);
-	draw_all_map(o_fdf);
-}
-
-int	deal_key(int key, t_controlleur *controle)
-{
-	t_fdf *o_fdf = controle->o_fdf;
-	if (key)
-		printf("%d\n", key);
-	if (key == 30)
-	{
-		o_fdf->color_blue = 0x00;
-		o_fdf->color_red = 0xA200;
-		o_fdf->color_green = 0x0000;
-		controle->o_fdf = controle->o_fdf->next;
-		o_fdf->next->color_blue = 0xFF;
-		o_fdf->next->color_red = 0xFF00;
-		o_fdf->next->color_green = 0xFF0000;
-		mlx_clear_window(o_fdf->mlx, o_fdf->win);
-		draw_all_map(o_fdf);
-	}
-	if (key == 49)
-	{
-		fdf_constructor(o_fdf, 100);
-		mlx_clear_window(o_fdf->mlx, o_fdf->win);
-		draw_all_map(o_fdf);
-	}
-	if (key == 53)
-	{
-		mlx_destroy_window(o_fdf->mlx, o_fdf->win);
-		exit(1);
-	}
-	if (key == 69 || key == 78)
-		zoom_map(key, o_fdf);
-	if (key == 123 || key == 124 || key == 125 || key == 126)
-		move_map(key, o_fdf);
-	if (key == 12 || key == 13 || key == 14 ||
-			key == 18 || key == 19 || key == 20)
-		dilate_map(key, o_fdf);
-	if (key == 0 || key == 1 || key == 2 || key == 6 || key == 7 || key == 8)
-		rotate_map(key, o_fdf);
-	return (1);
-}
-
-t_fdf	fdf_constructor(t_fdf *o_fdf, int i)
+t_fdf			fdf_constructor(t_fdf *o_fdf, int i)
 {
 	o_fdf->id = i;
 	o_fdf->ang_x = 0 / 3.14159265;
 	o_fdf->ang_y = 0 / 3.14159265;
 	o_fdf->ang_z = 0 / 3.14159265;
-	o_fdf->coef_x = 4;
-	o_fdf->zoom = 5;
-	o_fdf->coef_y = 3;
-	o_fdf->coef_z = 3;
+	o_fdf->coef_x = 1;
+	o_fdf->zoom = 1;
+	o_fdf->coef_y = 1;
+	o_fdf->coef_z = 1;
 	o_fdf->margin_top = 100 * i;
 	o_fdf->margin_lef = 100 * i;
 	return (*o_fdf);
 }
 
-static void		add_map(t_fdf *o_fdf, void *mlx, void *win, char *str)
+void			add_map(t_fdf *o_fdf, void *mlx, void *win, char *str)
 {
-	int a;
-	int b;
-	int c;
 	t_fdf *tmp;
 	t_fdf *tmp2;
 
@@ -166,14 +60,12 @@ static void		add_map(t_fdf *o_fdf, void *mlx, void *win, char *str)
 	fdf_constructor(tmp, 2);
 	tmp->mlx = mlx;
 	tmp->win = win;
-	tmp->img = mlx_new_image(o_fdf->mlx, FDF_SCREEN_Y, FDF_SCREEN_X);
-	tmp->img_str = mlx_get_data_addr(o_fdf->img, &a, &b, &c);
 	tmp->map = NULL;
 	tmp->map = parse_file(str, o_fdf->map);
-	tmp->color = 0x22AA88;
-	tmp->color_blue = 0x00;
-	tmp->color_red = 0xA200;
-	tmp->color_green = 0x0000000;
+	tmp->color = 0xFF;
+	tmp->color_blue = 0x0;
+	tmp->color_red = 0x0;
+	tmp->color_green = 0xff;
 	tmp->next = o_fdf;
 	tmp2->next = tmp;
 }
@@ -194,12 +86,13 @@ static t_fdf	*new_fdf(t_fdf *o_fdf, void *mlx, void *win, char *str)
 	return (o_fdf);
 }
 
-int	main(int ac, char **av)
+int				main(int ac, char **av)
 {
-	t_fdf	*o_fdf;
-	int		i;
-	void	*mlx;
-	void	*win;
+	t_fdf			*o_fdf;
+	int				i;
+	void			*mlx;
+	void			*win;
+	t_controlleur	controle;
 
 	i = 2;
 	mlx = mlx_init();
@@ -211,7 +104,6 @@ int	main(int ac, char **av)
 	while (av[i])
 		add_map(o_fdf, mlx, win, av[i++]);
 	draw_all_map(o_fdf);
-	t_controlleur	controle;
 	controle.o_fdf = o_fdf;
 	controle.win = win;
 	controle.mlx = mlx;
