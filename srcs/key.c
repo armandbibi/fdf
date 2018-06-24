@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/24 16:59:26 by abiestro          #+#    #+#             */
-/*   Updated: 2018/06/24 18:07:27 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/06/24 23:29:43 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 static void		move_map(int key, t_fdf *o_fdf)
 {
 	if (key == 123)
-		o_fdf->margin_top -= 10;
+		o_fdf->margin_top -= 50;
 	if (key == 124)
-		o_fdf->margin_top += 10;
+		o_fdf->margin_top += 50;
 	if (key == 126)
-		o_fdf->margin_lef -= 10;
+		o_fdf->margin_lef -= 50;
 	if (key == 125)
-		o_fdf->margin_lef += 10;
+		o_fdf->margin_lef += 50;
 	mlx_clear_window(o_fdf->mlx, o_fdf->win);
 	draw_all_map(o_fdf);
 }
@@ -75,11 +75,11 @@ static void		color_map(int key, t_fdf *o_fdf)
 	if (key == 84)
 		o_fdf->color_red -= 30;
 	if (key == 87)
-		o_fdf->color_red -= 30;
-	if (key == 84)
-		o_fdf->color_red -= 30;
+		o_fdf->color_red += 30;
+	if (key == 85)
+		o_fdf->color_green -= 30;
 	if (key == 88)
-		o_fdf->color_red -= 30;
+		o_fdf->color_green += 30;
 	mlx_clear_window(o_fdf->mlx, o_fdf->win);
 	draw_all_map(o_fdf);
 }
@@ -88,11 +88,13 @@ int				deal_key(int key, t_controlleur *controle)
 {
 	t_fdf *o_fdf;
 
-	if (key)
-		printf("%d\n", key);
 	o_fdf = controle->o_fdf;
-	if (key == 30)
+	if (key == 48)
+	{
 		controle->o_fdf = controle->o_fdf->next;
+		mlx_clear_window(o_fdf->mlx, o_fdf->win);
+		draw_all_map(controle->o_fdf);
+	}
 	if (key == 53)
 	{
 		mlx_destroy_window(o_fdf->mlx, o_fdf->win);

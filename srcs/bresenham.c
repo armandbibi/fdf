@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 16:52:00 by abiestro          #+#    #+#             */
-/*   Updated: 2018/06/24 19:39:52 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/06/24 23:29:11 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,9 @@ static void		fill_pixel(t_fdf *o_fdf, long x, long y)
 	while (x < FDF_SCREEN_X)
 		x += FDF_SCREEN_X;
 	while (y < FDF_SCREEN_Y)
-		y += FDF_SCREEN_Y * 4;
-	i = (x + y * FDF_SCREEN_Y) * 4;
+		y += FDF_SCREEN_Y;
+	i = abs(((int)x + (int)y * FDF_SCREEN_Y) * 4);
 	i = i % (4 * FDF_SCREEN_X * FDF_SCREEN_Y);
-	while (x < FDF_SCREEN_X)
-		x += FDF_SCREEN_X;
-	while (y < FDF_SCREEN_Y)
-		y += FDF_SCREEN_Y * 4;
 	o_fdf->img_str[i + 0] = (char)o_fdf->color_blue;
 	o_fdf->img_str[i + 2] = (char)o_fdf->color_green;
 	o_fdf->img_str[i + 1] = (char)o_fdf->color_red;
@@ -62,8 +58,8 @@ void			ft_bresenham(double *coords, t_fdf *o_fdf)
 	c2[2] = (coords[0] < coords[2]) ? 1 : -1;
 	c2[3] = (coords[1] < coords[3]) ? 1 : -1;
 	err = (c2[0] > c2[1] ? c2[0] : -c2[1]) / 2;
-	while (((int)coords[0] != (int)coords[2] ||
-				(int)coords[1] != (int)coords[3]) && k++ < FDF_SCREEN_X)
+	while (((int)coords[0] % 1000 != (int)coords[2] % 1000 ||
+			(int)coords[1] % 1000 != (int)coords[3] % 1000) && k++ < 2000)
 	{
 		fill_pixel(o_fdf, (long)coords[0], (long)coords[1]);
 		err = take_care_error(err, e2, c2, coords);

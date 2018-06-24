@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/30 20:09:58 by abiestro          #+#    #+#             */
-/*   Updated: 2018/06/24 16:34:25 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/06/24 22:37:23 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ int				**parse_file(char *file, int **map)
 
 	size = 0;
 	map = 0;
-	fd = open(file, O_RDONLY);
+	if ((fd = open(file, O_RDONLY)) == -1)
+		exit(1);
 	while (get_next_line(fd, &line))
 	{
 		map = add_line(map, size++, line);

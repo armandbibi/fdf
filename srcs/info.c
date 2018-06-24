@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/24 18:10:05 by abiestro          #+#    #+#             */
-/*   Updated: 2018/06/24 18:17:01 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/06/24 23:18:05 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,6 @@ static void	add_information_prime(t_fdf *m)
 			FDF_SCREEN_X - 150, 150, 0xFFFFFF, "top = ");
 	mlx_string_put(m->mlx, m->win,
 			FDF_SCREEN_X - 55, 150, 0xFFFFFF, ft_itoa(m->margin_top));
-	mlx_string_put(m->mlx, m->win,
-			FDF_SCREEN_X - 150, 170, 0xFFFFFF, "angle_z");
-	mlx_string_put(m->mlx, m->win,
-			FDF_SCREEN_X - 55, 170, 0xFFFFFF, ft_itoa(m->ang_x));
-	mlx_string_put(m->mlx, m->win,
-			FDF_SCREEN_X - 150, 190, 0xFFFFFF, "angle_y");
-	mlx_string_put(m->mlx, m->win,
-			FDF_SCREEN_X - 55, 190, 0xFFFFFF, ft_itoa(m->ang_y));
-	mlx_string_put(m->mlx, m->win,
-			FDF_SCREEN_X - 150, 210, 0xFFFFFF, "angle_z");
-	mlx_string_put(m->mlx, m->win,
-			FDF_SCREEN_X - 55, 210, 0xFFFFFF, ft_itoa(m->ang_z));
 }
 
 void		add_information(t_fdf *m)

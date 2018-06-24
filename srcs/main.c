@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/30 20:35:35 by abiestro          #+#    #+#             */
-/*   Updated: 2018/06/24 18:17:24 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/06/24 23:30:22 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,15 @@ void			draw_all_map(t_fdf *m)
 	while (s->next != m)
 	{
 		s = s->next;
+		s->color_blue /= 2;
+		s->color_red /= 2;
+		s->color_green /= 2;
 		s->img = m->img;
 		s->img_str = m->img_str;
 		draw_map(s);
+		s->color_blue *= 2;
+		s->color_red *= 2;
+		s->color_green *= 2;
 	}
 	mlx_put_image_to_window(s->mlx, s->win, s->img, 0, 0);
 	add_information(m);
@@ -40,11 +46,11 @@ t_fdf			fdf_constructor(t_fdf *o_fdf, int i)
 	o_fdf->ang_y = 0 / 3.14159265;
 	o_fdf->ang_z = 0 / 3.14159265;
 	o_fdf->coef_x = 1;
-	o_fdf->zoom = 1;
+	o_fdf->zoom = 2;
 	o_fdf->coef_y = 1;
 	o_fdf->coef_z = 1;
-	o_fdf->margin_top = 100 * i;
-	o_fdf->margin_lef = 100 * i;
+	o_fdf->margin_top = 300;
+	o_fdf->margin_lef = 500;
 	return (*o_fdf);
 }
 
