@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/24 16:59:26 by abiestro          #+#    #+#             */
-/*   Updated: 2018/06/24 23:29:43 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/06/25 20:02:15 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,19 @@ static void		rotate_map(int key, t_fdf *o_fdf)
 		o_fdf->ang_y -= 0.10;
 	if (key == 8)
 		o_fdf->ang_z -= 0.10;
+	if (key == 36)
+	{
+		if (o_fdf->pass_wall)
+			o_fdf->pass_wall = 0; 
+		else
+		{
+			o_fdf->pass_wall = 1;
+			o_fdf->ang_x = 0;
+			o_fdf->ang_x = 0;
+			o_fdf->ang_x = 0;
+		}
+
+	}
 	mlx_clear_window(o_fdf->mlx, o_fdf->win);
 	draw_all_map(o_fdf);
 }
@@ -98,7 +111,7 @@ int				deal_key(int key, t_controlleur *controle)
 	if (key == 53)
 	{
 		mlx_destroy_window(o_fdf->mlx, o_fdf->win);
-		exit(1);
+		exit(0);
 	}
 	if (key == 83 || key == 84 || key == 85 || key == 86 || key == 88)
 		color_map(key, o_fdf);
@@ -107,7 +120,8 @@ int				deal_key(int key, t_controlleur *controle)
 	if (key == 69 || key == 78 || key == 12 || key == 13 || key == 14 ||
 			key == 18 || key == 19 || key == 20)
 		transform_map(key, o_fdf);
-	if (key == 0 || key == 1 || key == 2 || key == 6 || key == 7 || key == 8)
+	if (key == 0 || key == 1 || key == 2 ||
+			key == 6 || key == 7 || key == 8 || key == 36)
 		rotate_map(key, o_fdf);
 	return (1);
 }

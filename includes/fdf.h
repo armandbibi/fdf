@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/31 15:50:47 by abiestro          #+#    #+#             */
-/*   Updated: 2018/06/24 23:07:02 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/06/25 18:57:07 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct		s_fdf
 	int				color_green;
 	int				map_size_x;
 	int				map_size_y;
+	int				pass_wall;
 }					t_fdf;
 
 typedef struct		s_controlleur
@@ -63,7 +64,7 @@ void				algo_line(float *coordonates, void *mlx, void *window);
 void				draw_map(t_fdf *o_fdf);
 t_fdf				fdf_constructor(t_fdf *o_fdf, int i);
 int					deal_key(int key, t_controlleur *controle);
-void				add_map(t_fdf *o_fdf, void *mlx, void *win, char *str);
+void				add_map(t_fdf *o_fdf, char *str);
 void				draw_all_map(t_fdf *m);
 void				add_information(t_fdf *m);
 #endif

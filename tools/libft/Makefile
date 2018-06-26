@@ -6,7 +6,7 @@
 #    By: abiestro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/03 22:19:35 by abiestro          #+#    #+#              #
-#    Updated: 2018/05/31 16:55:43 by abiestro         ###   ########.fr        #
+#    Updated: 2018/06/25 19:40:45 by abiestro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ SRCS=	ft_strlen.c \
 		ft_strjoin.c \
 		ft_strtrim.c \
 		ft_strsplit.c \
-		ft_itoa.c \
+		ft_itoa_base.c \
 		ft_putchar.c \
 		ft_putstr.c \
 		ft_putendl.c \

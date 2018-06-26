@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/30 20:35:35 by abiestro          #+#    #+#             */
-/*   Updated: 2018/06/24 23:30:22 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/06/25 19:34:43 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@ void			draw_all_map(t_fdf *m)
 	int		a;
 	int		c;
 
-	s = m;
 	m->img = mlx_new_image(m->mlx, FDF_SCREEN_Y, FDF_SCREEN_X);
 	m->img_str = mlx_get_data_addr(m->img, &a, &m->img_len, &c);
-	draw_map(m);
+	s = m;
 	while (s->next != m)
 	{
 		s = s->next;
@@ -35,6 +34,7 @@ void			draw_all_map(t_fdf *m)
 		s->color_red *= 2;
 		s->color_green *= 2;
 	}
+	draw_map(m);
 	mlx_put_image_to_window(s->mlx, s->win, s->img, 0, 0);
 	add_information(m);
 }
@@ -54,7 +54,7 @@ t_fdf			fdf_constructor(t_fdf *o_fdf, int i)
 	return (*o_fdf);
 }
 
-void			add_map(t_fdf *o_fdf, void *mlx, void *win, char *str)
+void			add_map(t_fdf *o_fdf, char *str)
 {
 	t_fdf *tmp;
 	t_fdf *tmp2;
@@ -64,8 +64,8 @@ void			add_map(t_fdf *o_fdf, void *mlx, void *win, char *str)
 		tmp2 = tmp2->next;
 	tmp = malloc(sizeof(t_fdf));
 	fdf_constructor(tmp, 2);
-	tmp->mlx = mlx;
-	tmp->win = win;
+	tmp->mlx = o_fdf->mlx;
+	tmp->win = o_fdf->win;
 	tmp->map = NULL;
 	tmp->map = parse_file(str, o_fdf->map);
 	tmp->color = 0xFF;
@@ -84,6 +84,8 @@ static t_fdf	*new_fdf(t_fdf *o_fdf, void *mlx, void *win, char *str)
 	o_fdf->win = win;
 	o_fdf->map = NULL;
 	o_fdf->map = parse_file(str, o_fdf->map);
+	o_fdf->mlx = mlx_init();
+	o_fdf->win = mlx_new_window(o_fdf->mlx, FDF_SCREEN_X, FDF_SCREEN_Y, "FDF");
 	o_fdf->color = 0xFF;
 	o_fdf->color_blue = 0xFF;
 	o_fdf->color_red = 0xFF;
@@ -100,19 +102,19 @@ int				main(int ac, char **av)
 	void			*win;
 	t_controlleur	controle;
 
+	win = NULL;
+	mlx = NULL;
 	i = 2;
-	mlx = mlx_init();
-	win = mlx_new_window(mlx, FDF_SCREEN_X, FDF_SCREEN_Y, "FDF");
 	if (ac < 2)
 		return (0);
 	o_fdf = 0;
 	o_fdf = new_fdf(o_fdf, mlx, win, av[1]);
 	while (av[i])
-		add_map(o_fdf, mlx, win, av[i++]);
+		add_map(o_fdf, av[i++]);
 	draw_all_map(o_fdf);
 	controle.o_fdf = o_fdf;
-	controle.win = win;
-	controle.mlx = mlx;
+	controle.win = o_fdf->win;
+	controle.mlx = o_fdf->mlx;
 	mlx_key_hook(o_fdf->win, deal_key, &controle);
 	mlx_loop(controle.mlx);
 	return (0);

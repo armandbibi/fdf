@@ -6,7 +6,7 @@
 /*   By: abiestro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/04 15:32:52 by abiestro          #+#    #+#             */
-/*   Updated: 2018/06/24 23:32:48 by abiestro         ###   ########.fr       */
+/*   Updated: 2018/06/25 21:37:55 by abiestro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,14 @@ static void		draw_left(t_fdf *o_fdf, int i, int j)
 	c = o_fdf->map[i][j];
 	rotate(&a, &b, &c, o_fdf);
 	coord[1] = o_fdf->margin_lef + o_fdf->zoom *
-		((a - b) * o_fdf->coef_x - (c / 2) * o_fdf->coef_z);
+		((a - b) * o_fdf->coef_x - (c / 5) * o_fdf->coef_z);
 	coord[0] = o_fdf->margin_top + o_fdf->zoom * ((a + b) * o_fdf->coef_y);
 	a = i + 1;
 	b = j;
 	c = o_fdf->map[i + 1][j];
 	rotate(&a, &b, &c, o_fdf);
 	coord[3] = o_fdf->margin_lef + o_fdf->zoom *
-		((a - b) * o_fdf->coef_x - (c) / 2 * o_fdf->coef_z);
+		((a - b) * o_fdf->coef_x - (c / 5) * o_fdf->coef_z);
 	coord[2] = o_fdf->margin_top + o_fdf->zoom * ((a + b) * o_fdf->coef_y);
 	o_fdf->color = o_fdf->color_blue + o_fdf->color_red + o_fdf->color_green;
 	ft_bresenham(coord, o_fdf);
@@ -72,14 +72,14 @@ static void		draw_top(t_fdf *o_fdf, int i, int j)
 	c = o_fdf->map[i][j];
 	rotate(&a, &b, &c, o_fdf);
 	coord[1] = o_fdf->margin_lef + o_fdf->zoom *
-		((a - b) * o_fdf->coef_x - (c / 2) * o_fdf->coef_z);
+		((a - b) * o_fdf->coef_x - (c / 5) * o_fdf->coef_z);
 	coord[0] = o_fdf->margin_top + o_fdf->zoom * ((a + b) * o_fdf->coef_y);
 	a = i;
 	b = j + 1;
 	c = o_fdf->map[i][j + 1];
 	rotate(&a, &b, &c, o_fdf);
 	coord[3] = o_fdf->margin_lef + o_fdf->zoom *
-		((a - b) * o_fdf->coef_x - (c / 2) * o_fdf->coef_z);
+		((a - b) * o_fdf->coef_x - (c / 5) * o_fdf->coef_z);
 	coord[2] = o_fdf->margin_top + o_fdf->zoom * ((a + b) * o_fdf->coef_y);
 	ft_bresenham(coord, o_fdf);
 }
@@ -88,6 +88,7 @@ void			draw_map(t_fdf *o_fdf)
 {
 	int i;
 	int j;
+	int k;
 
 	i = 0;
 	while (o_fdf->map[i])
@@ -96,7 +97,13 @@ void			draw_map(t_fdf *o_fdf)
 		while (o_fdf->map[i][j] != 1000)
 		{
 			if (o_fdf->map[i + 1] && o_fdf->map[i + 1][j] != 1000)
-				draw_left(o_fdf, i, j);
+			{
+				k = 0;
+				while (o_fdf->map[i + 1][k] != 1000 && k != j)
+					k++;
+				if (k == j)
+					draw_left(o_fdf, i, j);
+			}
 			if (o_fdf->map[i][j + 1] != 1000)
 				draw_top(o_fdf, i, j);
 			j++;
